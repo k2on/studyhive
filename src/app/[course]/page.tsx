@@ -8,15 +8,23 @@ import { Input } from "~/components/ui/input";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { PlusIcon } from "lucide-react"
+import { db } from "~/server/db";
+import { eq } from "drizzle-orm";
+import { courses } from "~/server/db/schema";
 
 interface Props{
     params: {course: string};
 }
 export default async function Course({params }: Props) {
   noStore();
-  const hello = await api.post.hello.query({ text: "from tRPC" });
-  const session = await getServerAuthSession();
 
+  const course = await db.query.courses.findFirst({
+    where: eq(courses.id, params.course)
+  })
+
+if (!course){
+    return "course not found"
+}
 
   interface Item {
     assignment_name: string;
@@ -34,13 +42,13 @@ export default async function Course({params }: Props) {
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
         <div className="flex space-x-2 justify-between">
-           <h1 className="text-3xl font-bold">{params.course}</h1>
+           <h1 className="text-3xl font-bold">{course.name}</h1>
            <Button>
            <PlusIcon className="mr-2 h-4 w-4" /> Join Course
            </Button>
         </div>
         <div className="TeacherName">
-            Teacher Name
+            {course.instructorName}
         </div>
         <div className="pt-8 flex flex-col space-y-4">
         <div className="flex space-x-2">
