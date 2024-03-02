@@ -120,6 +120,7 @@ export const courseMaterials = createTable(
     id: varchar("id", { length: 255 })
       .notNull()
       .primaryKey(),
+    courseID: varchar("courseID", { length: 255 }).notNull(),
     name: varchar("name", { length: 255 }),
     term: varchar("term", { length: 255 }),
   },

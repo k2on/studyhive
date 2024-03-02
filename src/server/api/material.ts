@@ -10,23 +10,21 @@ import { eq } from "drizzle-orm";
 
 export const materialRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ term: z.string().min(1), name: z.string().min(1) }))
+    .input(z.object({ id: z.string(), courseID: z.string(), term: z.string().min(1), name: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(courseMaterials).values({ 
-        id: v4(),
+      return await ctx.db.insert(courseMaterials).values({ 
+        id: input.id,
         name: input.name,
         term: input.term,
+        courseID: input.courseID,
       });
     }),
 
-  getForCourse: protectedProcedure.query(async ({ ctx }) => {
-    let r = await ctx.db.query.courseMaterials.findMany({
-      where: eq(usersToCourses.userID, ctx.session.user.id),
-      with: {
-        course: true,
-      },
-    });
-
-    return r.map(x => x.course);
+  getForCourse: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.courseMaterials.findMany({
+        where: eq(courseMaterials.courseID, input),
+      });
   }),
 });
