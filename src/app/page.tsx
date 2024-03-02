@@ -9,22 +9,29 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { PlusIcon } from "lucide-react"
 
+async function Courses() {
+  const courses = await api.courses.getJoined.query();
+
+  return (
+    courses.map((course) => (
+        <Card key={course.course.id}>
+            <CardHeader>
+              <CardTitle>{course.course.name}</CardTitle>
+              <CardDescription>{course.course.instructorName}</CardDescription>
+            </CardHeader>
+          </Card>
+      ))
+  );
+}
+
 export default async function Home() {
   noStore();
-  const hello = await api.post.hello.query({ text: "from tRPC" });
   const session = await getServerAuthSession();
-
 
   interface Item {
     class_name: string;
     teacher_name: string;
   }
-
-  const items: Item[] = [
-    { class_name: 'Ex. Class 1', teacher_name: 'Teacher 1' },
-    { class_name: 'Ex. Class 2', teacher_name: 'Teacher 2' },
-    // Add more items as needed
-  ];
 
 
   return (
@@ -39,15 +46,12 @@ export default async function Home() {
            </Button>
         </div>
         <div className="pt-8 flex flex-col space-y-4">
-        {items.map((item) => (
-        <Card key={item.class_name}>
-            <CardHeader>
-              <CardTitle>{item.class_name}</CardTitle>
-              <CardDescription>{item.teacher_name}</CardDescription>
-            </CardHeader>
-          </Card>
-      ))}
-          
+          {session?.user ?
+            <Courses /> :
+            <Link href="/api/auth/signin">
+              <Button>Login</Button>
+            </Link>
+          }
         </div>
       </div>
     </main>
