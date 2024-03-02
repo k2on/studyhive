@@ -17,9 +17,11 @@ import {
 import { Input } from "~/components/ui/input"
 
 const formSchema = z.object({
-  coursename: z.string().min(2, {
+  courseName: z.string().min(2, {
     message: "Course Name must be at least 2 characters.",
-  }),
+  }), teacherName: z.string().min(2, {
+    message: "Teacher Name must be at least 2 characters.",
+  }), 
 })
 
 export default function ProfileForm() {
@@ -27,10 +29,12 @@ export default function ProfileForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      coursename: "",
+      courseName: "",
+      teacherName: "",
     },
   })
  
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -45,7 +49,7 @@ export default function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="coursename"
+          name="courseName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Course Name</FormLabel>
@@ -59,6 +63,22 @@ export default function ProfileForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="teacherName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Teacher Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Teacher Name" {...field} />
+              </FormControl>
+              <FormDescription>
+                Please enter your desired teacher's name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+          />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
