@@ -7,38 +7,46 @@ import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/ca
 import { Input } from "~/components/ui/input";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import { PlusIcon } from "lucide-react"
 
 export default async function Home() {
   noStore();
   const hello = await api.post.hello.query({ text: "from tRPC" });
   const session = await getServerAuthSession();
 
+
+  interface Item {
+    class_name: string;
+    teacher_name: string;
+  }
+
+  const items: Item[] = [
+    { class_name: 'Ex. Class 1', teacher_name: 'Teacher 1' },
+    { class_name: 'Ex. Class 2', teacher_name: 'Teacher 2' },
+    // Add more items as needed
+  ];
+
+
   return (
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
-        <div className="flex">
+        <div className="flex space-x-2">
            <Input placeholder="Search for a class"/>
-           <Button> New</Button>
+           <Button>
+           <PlusIcon className="mr-2 h-4 w-4" /> New
+           </Button>
         </div>
         <div className="pt-8 flex flex-col space-y-4">
-          <Card>
+        {items.map((item) => (
+    
+        <Card key={item.class_name}>
             <CardHeader>
-              <CardTitle>Class Name</CardTitle>
-              <CardDescription>Teacher Name</CardDescription>
+              <CardTitle>{item.class_name}</CardTitle>
+              <CardDescription>{item.teacher_name}</CardDescription>
             </CardHeader>
           </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Class Name</CardTitle>
-              <CardDescription>Teacher Name</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Class Name</CardTitle>
-              <CardDescription>Teacher Name</CardDescription>
-            </CardHeader>
-          </Card>
+      ))}
+          
         </div>
       </div>
     </main>
