@@ -24,8 +24,8 @@ export default async function Course({params }: Props) {
   }
 
   const items: Item[] = [
-    { assignment_name: 'Ex. Test 1', description_name: 'Printing "Hello World", Arrays, ...' },
-    { assignment_name: 'Ex. Test 2', description_name: 'Functions, Pointers, ...' },
+    { assignment_name: 'Ex. Exam 1', description_name: 'Fall 2023: Printing "Hello World", Arrays, ...' },
+    { assignment_name: 'Ex. Exam 2', description_name: 'Fall 2023: Functions, Pointers, ...' },
     // Add more items as needed
   ];
 
@@ -34,17 +34,23 @@ export default async function Course({params }: Props) {
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
         <div className="flex space-x-2 justify-between">
-           <h1 className="3text-xl font-bold">{params.course}</h1>
+           <h1 className="text-3xl font-bold">{params.course}</h1>
            <Button>
-           <Link href="/new">
            <PlusIcon className="mr-2 h-4 w-4" /> Join Course
-           </Link>
            </Button>
         </div>
         <div className="TeacherName">
             Teacher Name
         </div>
         <div className="pt-8 flex flex-col space-y-4">
+        <div className="flex space-x-2">
+           <Input placeholder="Search for class materials"/>
+           <Button>
+           <Link href="/math/new">
+           <PlusIcon className="mr-2 h-4 w-4" /> New
+           </Link>
+           </Button>
+        </div>
         {items.map((item) => (
     
         <Card key={item.assignment_name}>
