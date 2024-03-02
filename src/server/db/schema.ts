@@ -91,7 +91,9 @@ export const courses = createTable(
 
 export const courseRelations = relations(courses, ({ many }) => ({
   usersToCourses: many(usersToCourses),
+  courseMaterials: many(courseMaterials),
 }));
+
 
 export const usersToCourses = createTable("usersToCourses", {
     userID: varchar("userID", { length: 255 }).notNull(),
@@ -122,6 +124,13 @@ export const courseMaterials = createTable(
     term: varchar("term", { length: 255 }),
   },
 );
+
+export const courseMaterialRelations = relations(courseMaterials, ({ one }) => ({
+  course: one(courses, {
+    fields: [courseMaterials.id],
+    references: [courses.id],
+  }),
+}));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
   user: one(users, { fields: [accounts.userId], references: [users.id] }),

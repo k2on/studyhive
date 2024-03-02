@@ -14,10 +14,10 @@ async function Courses() {
 
   return (
     courses.map((course) => (
-        <Card key={course.course.id}>
+        <Card key={course.id}>
             <CardHeader>
-              <CardTitle>{course.course.name}</CardTitle>
-              <CardDescription>{course.course.instructorName}</CardDescription>
+              <CardTitle>{course.name}</CardTitle>
+              <CardDescription>{course.instructorName}</CardDescription>
             </CardHeader>
           </Card>
       ))
@@ -32,7 +32,6 @@ export default async function Home() {
     class_name: string;
     teacher_name: string;
   }
-
 
   return (
     <main className="">
