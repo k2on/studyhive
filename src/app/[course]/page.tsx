@@ -44,7 +44,7 @@ if (!course){
         <div className="flex space-x-2 justify-between">
            <h1 className="text-3xl font-bold">{course.name}</h1>
            <Button>
-           <PlusIcon className="mr-2 h-4 w-4" /> Join Course
+           <PlusIcon className="mr-2 h-4 w-4 inline-block" /> Join Course
            </Button>
         </div>
         <div className="TeacherName">
