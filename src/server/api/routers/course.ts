@@ -4,16 +4,15 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { courses, usersToCourses, users } from "~/server/db/schema";
-import { v4 } from "uuid";
+import { courses, usersToCourses } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export const courseRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ courseName: z.string().min(1), teacherName: z.string().min(1) }))
+    .input(z.object({ courseName: z.string().min(1), teacherName: z.string().min(1), id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(courses).values({ 
-        id: v4(),
+      return await ctx.db.insert(courses).values({
+        id: input.id,
         name: input.courseName,
         instructorName: input.teacherName,
       });

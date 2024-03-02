@@ -40,7 +40,7 @@ export default async function Home() {
            <Input placeholder="Search for a class"/>
            <Button>
            <Link href="/new">
-           <PlusIcon className="mr-2 h-4 w-4" /> New
+           <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
            </Link>
            </Button>
         </div>
