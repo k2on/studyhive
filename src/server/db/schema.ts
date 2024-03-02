@@ -81,11 +81,11 @@ export const accounts = createTable(
 export const courses = createTable(
   "courses",
   {
-    id: varchar("courseId", { length: 255 })
+    id: varchar("id", { length: 255 })
       .notNull()
       .primaryKey(),
-    name: varchar("courseName", { length: 255 }),
-    instructorName: varchar("courseName", { length: 255 }),
+    name: varchar("name", { length: 255 }).notNull(),
+    instructorName: varchar("instructorName", { length: 255 }).notNull(),
   },
 );
 
@@ -115,11 +115,11 @@ export const usersToCoursesRelations = relations(usersToCourses, ({ one }) => ({
 export const courseMaterials = createTable(
   "materials",
   {
-    materialId: varchar("courseId", { length: 255 })
+    id: varchar("id", { length: 255 })
       .notNull()
       .primaryKey(),
-    name: varchar("courseName", { length: 255 }),
-    term: varchar("courseName", { length: 255 }),
+    name: varchar("name", { length: 255 }),
+    term: varchar("term", { length: 255 }),
   },
 );
 
