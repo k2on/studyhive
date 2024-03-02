@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { api } from "~/trpc/react"
 
 import { Button } from "~/components/ui/button"
 import {
@@ -34,9 +35,14 @@ export default function ProfileForm() {
     },
   })
  
+const { mutate } = api.course.create.useMutation()
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    mutate({
+      courseName: values.courseName,
+      teacherName: values.teacherName,
+    })
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)

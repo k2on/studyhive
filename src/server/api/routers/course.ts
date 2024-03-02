@@ -1,4 +1,3 @@
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -7,18 +6,20 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { courses, usersToCourses, users } from "~/server/db/schema";
+import { v4 } from "uuid";
+import { eq } from "drizzle-orm";
 
 export const courseRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    .input(z.object({ courseName: z.string().min(1), teacherName: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // await ctx.db.insert(courses).values({
-      //   name: input.name,
-      //   createdById: ctx.session.user.id,
-      // });
+      await ctx.db.insert(courses).values({ 
+        id: v4(),
+        name: input.courseName,
+        instructorName: input.teacherName,
+      });
     }),
 
   getJoined: protectedProcedure.query(async ({ ctx }) => {
@@ -34,9 +35,5 @@ export const courseRouter = createTRPCRouter({
     });
 
     return r.map(x => x.course);
-  }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
   }),
 });
