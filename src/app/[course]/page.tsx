@@ -46,7 +46,7 @@ export default async function Course({params }: Props) {
         <div className="flex space-x-2">
            <Input placeholder="Search for class materials"/>
            <Button>
-           <Link href="/new">
+           <Link href="/math/new">
            <PlusIcon className="mr-2 h-4 w-4" /> New
            </Link>
            </Button>

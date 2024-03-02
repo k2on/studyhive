@@ -40,7 +40,6 @@ export default async function Home() {
         </div>
         <div className="pt-8 flex flex-col space-y-4">
         {items.map((item) => (
-    
         <Card key={item.class_name}>
             <CardHeader>
               <CardTitle>{item.class_name}</CardTitle>
