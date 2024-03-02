@@ -33,7 +33,9 @@ export default async function Home() {
         <div className="flex space-x-2">
            <Input placeholder="Search for a class"/>
            <Button>
+           <Link href="/new">
            <PlusIcon className="mr-2 h-4 w-4" /> New
+           </Link>
            </Button>
         </div>
         <div className="pt-8 flex flex-col space-y-4">
