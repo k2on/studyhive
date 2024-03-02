@@ -50,6 +50,7 @@ export const users = createTable("user", {
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
+  usersToCourses: many(usersToCourses),
 }));
 
 export const accounts = createTable(
@@ -75,6 +76,51 @@ export const accounts = createTable(
     }),
     userIdIdx: index("accounts_userId_idx").on(account.userId),
   })
+);
+
+export const courses = createTable(
+  "courses",
+  {
+    id: varchar("courseId", { length: 255 })
+      .notNull()
+      .primaryKey(),
+    name: varchar("courseName", { length: 255 }),
+    instructorName: varchar("courseName", { length: 255 }),
+  },
+);
+
+export const courseRelations = relations(courses, ({ many }) => ({
+  usersToCourses: many(usersToCourses),
+}));
+
+export const usersToCourses = createTable("usersToCourses", {
+    userID: varchar("userID", { length: 255 }).notNull(),
+    courseID: varchar("courseID", { length: 255 }).notNull(),
+  }, (t) => ({
+    pk: primaryKey({columns: [t.userID, t.courseID]}),
+  }),
+);
+
+export const usersToCoursesRelations = relations(usersToCourses, ({ one }) => ({
+  course: one(courses, {
+    fields: [usersToCourses.courseID],
+    references: [courses.id],
+  }),
+  user: one(users, {
+    fields: [usersToCourses.userID],
+    references: [users.id],
+  }),
+}));
+
+export const courseMaterials = createTable(
+  "materials",
+  {
+    materialId: varchar("courseId", { length: 255 })
+      .notNull()
+      .primaryKey(),
+    name: varchar("courseName", { length: 255 }),
+    term: varchar("courseName", { length: 255 }),
+  },
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
