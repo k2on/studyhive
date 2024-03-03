@@ -21,7 +21,6 @@ export const materialsRouter = createTRPCRouter({
         name: input.materialName,
         term: input.term,
         courseID: input.courseId,
-        //term: ctx.session.user.id,
       });
     }),
 });
