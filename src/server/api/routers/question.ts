@@ -15,7 +15,8 @@ export const questionRouter = createTRPCRouter({
         }))
         .query(async ({ ctx, input }) => {
             return ctx.db.query.questions.findMany({
-                where: eq(questions.materialID, input.id)
+                where: eq(questions.materialID, input.id),
+                orderBy: (questions, { asc }) => [asc(questions.createdAt)],
             })
         }),
     create: protectedProcedure
