@@ -1,17 +1,16 @@
 import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
 import { Button } from "~/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
-import { CheckIcon, PlusIcon } from "lucide-react"
+import { PlusIcon } from "lucide-react"
 import { db } from "~/server/db";
 import { eq } from "drizzle-orm";
-import { courses, usersToCourses } from "~/server/db/schema";
-import { useParams } from "next/navigation";
+import { courses } from "~/server/db/schema";
+
+import { JoinButton } from "./JoinButton";
 
 interface Props {
     params: {course: string};
@@ -69,34 +68,9 @@ const session = await getServerAuthSession();
           </CardHeader>
         </Card>
       ))}
-          
         </div>
       </div>
     </main>
   );
 }
 
-interface JoinParams {
-  course: string
-}
-async function JoinButton({course  }: JoinParams) {
-  noStore();
-
-  const session = await getServerAuthSession();
-
-  const isInCourse = await db.query.usersToCourses.findFirst({
-    where: eq(usersToCourses.courseID, course) && eq(usersToCourses.userID, session!.user.id),
-  }) !== undefined;
-
-  return isInCourse
-  ? (
-      <Button>
-       <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
-      </Button>
-    )
-  : (
-    <Button>
-      <PlusIcon className="mr-2 h-4 w-4 inline-block" /> Join Course
-    </Button>
-  )
-}
