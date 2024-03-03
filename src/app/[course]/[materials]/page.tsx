@@ -1,8 +1,9 @@
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { courseMaterials, courses } from "~/server/db/schema";
+import { AddQuestion, Questions } from "./questions";
 
-interface Props{
+export interface Props{
     params: {
         course: string,
         materials: string,
@@ -26,8 +27,8 @@ export default async function Material({ params }: Props) {
         <div>
             {material.term} - {course.name} - {course.instructorName}
         </div>
-
-
+        <Questions />
+        <AddQuestion />
     </div>
 }
 
