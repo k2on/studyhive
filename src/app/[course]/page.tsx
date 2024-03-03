@@ -36,7 +36,6 @@ const session = await getServerAuthSession();
 
   const items: Item[] = [
     { assignment_name: 'Ex. Exam 1', description_name: 'Fall 2023: Printing "Hello World", Arrays, ...' },
-    { assignment_name: 'Ex. Exam 2', description_name: 'Fall 2023: Functions, Pointers, ...' },
     // Add more items as needed
   ];
 
