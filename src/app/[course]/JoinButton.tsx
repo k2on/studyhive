@@ -15,11 +15,11 @@ export function JoinButton({ course }: JoinParams) {
   noStore();
 
   const util = api.useUtils();
-  const { data, isLoading } = api.course.isInCourse.useQuery({ courseID: course });
-  const { mutate: join } = api.course.joinCourse.useMutation({ onSuccess() {
+  const { data: isInCourse, isLoading } = api.course.isInCourse.useQuery({ courseID: course });
+  const { mutate: join, isLoading: isJoining } = api.course.joinCourse.useMutation({ onSuccess() {
     util.course.isInCourse.invalidate();
   }});
-  const { mutate: leave } = api.course.leaveCourse.useMutation({ onSuccess() {
+  const { mutate: leave, isLoading: isLeaving } = api.course.leaveCourse.useMutation({ onSuccess() {
     util.course.isInCourse.invalidate();
   }});
 
@@ -32,7 +32,14 @@ export function JoinButton({ course }: JoinParams) {
     )
   }
 
-  return data
+  switch (true) {
+    case isInCourse:
+      <Button onClick={() => { leave({ courseID: course }) }}>
+        <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
+      </Button>
+  }
+
+  return isInCourse
   ? (
     <Button onClick={() => { leave({ courseID: course }) }}>
       <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
