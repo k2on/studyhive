@@ -43,16 +43,7 @@ const session = await getServerAuthSession();
             {course.instructorName}
         </div>
         <div className="pt-8 flex flex-col space-y-4">
-        <div className="flex space-x-2">
-           <Input placeholder="Search for class materials"/>
-           {session?.user && (
-              <Link href={course.id + "/new"}>
-                <Button className="flex justify-center align-center">
-                    <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
-                </Button>
-              </Link>
-            )}
-        </div>
+        
         
         <Materials />
         </div>
