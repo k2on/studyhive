@@ -17,17 +17,18 @@ interface Q {
     content: string;
 }
 
+const client = new OpenAI({
+    apiKey: env.OPENAI_API_KEY,
+});
+
+
 export async function saveDocumentInteraction(materialID: string, formData: FormData) {
     const session = await getServerAuthSession();
-    if (!session) return "Need to log in!";
+    if (!session) throw Error("Need to log in!");
 
   const fileI = formData.get('file') as File;
 
   console.log(fileI);
-
-        const client = new OpenAI({
-            apiKey: env.OPENAI_API_KEY,
-        });
 
         const file = await client.files.create({ file: fileI, purpose: 'assistants' });
 
@@ -47,22 +48,21 @@ export async function saveDocumentInteraction(materialID: string, formData: Form
             assistant_id: "asst_wnjccB2tMzuljc8R0AJq7Ilu",
         });
 
-        let final = run;
+        return { runID: run.id, threadID: thread.id };
+}
 
-        while (true) {
-            let r = await client.beta.threads.runs.retrieve(thread.id, run.id);
+export async function checkUpload(threadID: string, runID: string, materialID: string, ) {
+    const session = await getServerAuthSession();
+    if (!session) throw Error("Need to log in!");
 
-            final = r;
+        let r = await client.beta.threads.runs.retrieve(threadID, runID);
 
-            console.log("run", JSON.stringify(r, null, 4));
+        console.log("run", JSON.stringify(r, null, 4));
 
-            const shouldWait = r.status == "in_progress" || r.status == "queued";
-            if (!shouldWait) break;
+        const shouldWait = r.status == "in_progress" || r.status == "queued";
+        if (shouldWait) return false;
 
-            await sleep(1000);
-        }
-
-        const action = final.required_action;
+        const action = r.required_action;
         if (!action) {
             throw Error("Failed");
         }
@@ -90,9 +90,11 @@ export async function saveDocumentInteraction(materialID: string, formData: Form
         console.log("Qs: ", JSON.stringify(qs, null, 4));
         console.log("len: ", qs.questions.length);
         console.log("DONE!")
+        return true;
 
 
   // const userId = formData.get('userId') as string;
 
   console.log("from server");
+
 }

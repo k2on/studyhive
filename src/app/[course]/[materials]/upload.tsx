@@ -4,11 +4,16 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
-import { saveDocumentInteraction } from "./action";
+import { checkUpload, saveDocumentInteraction } from "./action";
 import { createReadStream } from "fs";
 import { useParams } from "next/navigation";
 import { Props } from "./page";
 import { api } from "~/trpc/react";
+
+interface RunData {
+    runID: string,
+    threadID: string,
+}
 
 export function Upload() {
     const { materials } = useParams<Props["params"]>();
@@ -28,12 +33,22 @@ export function Upload() {
 
         setIsLoading(true);
 
-          saveDocumentInteraction(materials, formData).then(() => {
-              setIsLoading(false);
-              util.question.getQuestions.invalidate();
+          saveDocumentInteraction(materials, formData).then((r) => {
+              const tick = async () => {
+                  const upload = await checkUpload(r.threadID, r.runID, materials);
+                  if (!upload) {
+                    setTimeout(tick, 1000);
+                  } else {
+                      setIsLoading(false);
+                      util.question.getQuestions.invalidate();
+                  }
+              }
+                setTimeout(tick, 1000);
           });
 
       }
+
+    
 
 
     return <Card className="bg-purple-200">

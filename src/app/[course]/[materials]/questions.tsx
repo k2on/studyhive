@@ -10,7 +10,8 @@ import { useState } from "react";
 import { v4 } from "uuid";
 import { Answers } from "./answers";
 import ReactQuill from "react-quill";
-import parse from "html-react-parser";
+import parse, { HTMLReactParserOptions, attributesToProps } from "html-react-parser";
+
 
 import "react-quill/dist/quill.snow.css";
 import TimeAgo from "react-timeago";
@@ -23,6 +24,18 @@ export function Questions() {
         {data?.map((question, idx) => <Question key={question.id} idx={idx} question={question} />)}
     </div>
 }
+
+const supportedTags = ['div', 'span', 'p', 'a', 'ul', 'li', 'img'];
+
+const options: HTMLReactParserOptions = {
+  replace: (node) => {
+    if (node.type === 'tag' && !supportedTags.includes(node.name)) {
+      const props = attributesToProps(node.attribs);
+      console.log(node.children);
+      return <span {...props} className="unsupported-tag">{node.children.map(c => (c as any).data)}</span>;
+    }
+  }
+};
 
 interface QuestionProps {
     idx: number;
@@ -42,7 +55,7 @@ function Question({ idx, question }: QuestionProps) {
         </CardHeader>
         <CardContent>
             <div className="mb-4 border-b-4 pb-4 font-medium">
-              {parse(question.content)}
+              {parse(question.content, options)}
             </div>
             <Answers questionID={question.id} />
         </CardContent>
