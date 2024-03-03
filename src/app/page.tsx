@@ -33,7 +33,6 @@ export default async function Home() {
     teacher_name: string;
   }
 
-
   return (
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
