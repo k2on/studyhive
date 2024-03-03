@@ -54,13 +54,13 @@ const session = await getServerAuthSession();
         <div className="pt-8 flex flex-col space-y-4">
         <div className="flex space-x-2">
            <Input placeholder="Search for class materials"/>
-           <Link href={"/" + course.id + "/new"}>
-
-           <Button>
-           <PlusIcon className="mr-2 h-4 w-4" /> New
-           </Button>
-           </Link>
-
+           {session?.user && (
+              <Link href={"./new"}>
+                <Button className="flex justify-center align-center">
+                    <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
+                </Button>
+              </Link>
+            )}
         </div>
         
         {items.map((item) => (
@@ -72,7 +72,6 @@ const session = await getServerAuthSession();
           </CardHeader>
         </Card>
       ))}
-          
         </div>
       </div>
     </main>
@@ -93,12 +92,12 @@ async function JoinButton({course  }: JoinParams) {
 
   return isInCourse
   ? (
-      <Button>
+      <Button className="flex justify-center align-center">
        <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
       </Button>
     )
   : (
-    <Button>
+    <Button className="flex justify-center align-center">
       <PlusIcon className="mr-2 h-4 w-4 inline-block" /> Join Course
     </Button>
   )

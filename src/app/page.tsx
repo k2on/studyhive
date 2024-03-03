@@ -38,11 +38,11 @@ export default async function Home() {
       <div className="max-w-xl mx-auto pt-4">
         <div className="flex space-x-2">
            <Input placeholder="Search for a class"/>
-           <Button>
            <Link href="/new">
+           <Button className="flex justify-center align-center">
            <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
-           </Link>
            </Button>
+           </Link>
         </div>
         <div className="pt-8 flex flex-col space-y-4">
           {session?.user ?
