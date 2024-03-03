@@ -8,7 +8,6 @@ import { RouterOutputs } from "~/trpc/shared";
 import ReactQuill from "react-quill";
 import parse from "html-react-parser";
 import TimeAgo from "react-timeago";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 interface AnswersProps {
     questionID: string;
@@ -63,7 +62,27 @@ export function NewAnswer({ questionID }: NewAnswerProps) {
 
     return (
       <div className="">
-          <ReactQuill theme="snow" placeholder="Write an answer!" value={content} onChange={setContent}/>
+          <ReactQuill
+            theme="snow"
+            placeholder="Write an answer!"
+            value={content}
+            onChange={setContent}
+            modules={{
+              toolbar: [
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [
+                  { script: 'sub' },
+                  { script: 'super' },
+                  { list: 'ordered' },
+                  { list: 'bullet' },
+                  { indent: '-1' },
+                  { indent: '+1' },
+                ],
+                ['link', 'image'],
+                ['code-block'],
+              ],
+            }}
+          />
           <br />
           <Button onClick={onPost}>Post</Button>
       </div>
