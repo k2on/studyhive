@@ -33,6 +33,7 @@ function Question({ idx, question }: QuestionProps) {
         <CardHeader>
             <CardTitle>Question {idx + 1}</CardTitle>
         </CardHeader>
+        <hr className="border-gray" />
         <CardContent>
             <div className="my-2">
               <div className="text-xs text-gray-500">
@@ -40,6 +41,8 @@ function Question({ idx, question }: QuestionProps) {
               </div>
               {parse(question.content)}
               <TimeAgo date={question.createdAt} className="text-gray-400 block justify-right text-gray-400 text-xs"/>
+              <hr className="border-black" />
+              <br />
             </div>
             <Answers questionID={question.id} />
         </CardContent>

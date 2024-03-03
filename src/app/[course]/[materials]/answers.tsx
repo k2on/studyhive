@@ -27,12 +27,14 @@ interface AnswerProps {
 }
 export function Answer({ answer }: AnswerProps) {
     return (
-      <div className="my-2 rounded-md border-solid border-2 border-green-400 p-3 text-xs">
+      <div className="border-b text-xs">
           <div className="text-gray-500">
             <img className="rounded-full h-5 inline-block" src={answer.user.image ?? "/addclasses.webp"}/> {answer.user.name}
           </div>
           {parse(answer.content)}
           <TimeAgo date={answer.createdAt} className="text-gray-400 block justify-right"/>
+          <br />
+          <hr />
       </div>
     );
 }
