@@ -52,6 +52,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: "https://accounts.google.com/o/oauth2/auth?response_type=code&hd=g.clemson.edu",
     }),
     /**
      * ...add more providers here.
