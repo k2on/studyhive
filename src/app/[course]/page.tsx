@@ -12,7 +12,7 @@ import { courses } from "~/server/db/schema";
 
 import { JoinButton } from "./JoinButton";
 
-interface Props {
+export interface Props {
     params: {course: string};
 }
 
