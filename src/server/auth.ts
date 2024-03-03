@@ -39,6 +39,9 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    signIn: ({ account, profile }) => {
+      return account?.provider === "google" && (profile?.email?.endsWith("@g.clemson.edu") || false);
+    },
     session: ({ session, user }) => ({
       ...session,
       user: {
@@ -52,6 +55,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: "https://accounts.google.com/o/oauth2/auth?response_type=code&hd=g.clemson.edu",
     }),
     /**
      * ...add more providers here.
