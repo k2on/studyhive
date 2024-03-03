@@ -5,7 +5,6 @@ import { api } from "~/trpc/react";
 
 
 
-
 export function Courses() {
     const {data} = api.course.getJoined.useQuery();
   
@@ -14,12 +13,11 @@ export function Courses() {
         <Link href={course.id}> 
         <Card key={course.id}>
               <CardHeader>
-                <CardTitle>{course.name}</CardTitle>
-                <CardDescription>{course.instructorName}</CardDescription>
+                <CardTitle>📚 {course.name}</CardTitle>
+                <CardDescription>🧑‍🏫 {course.instructorName}</CardDescription>
               </CardHeader>
             </Card> 
         </Link>
-          
         ))
     );
   }

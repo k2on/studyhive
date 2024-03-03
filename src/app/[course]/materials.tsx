@@ -28,17 +28,15 @@ export function Materials(){
                 </Button>
               </Link>
         </div>
-      {
-
-    data?.filter(item => item.name?.toLowerCase().includes(search.toLowerCase())).map((item) => (
-    <Link href={item.courseID + "/" + item.id}>
-    <Card key={item.id}>
-      <CardHeader>
-        <CardTitle>{item.name}</CardTitle>
-        <CardDescription>{item.term}</CardDescription>
-      </CardHeader>
-    </Card>
-    </Link>
-  ))}
-  </div>
+        {data?.filter(item => item.name?.toLowerCase().includes(search.toLowerCase())).map((item) => (
+            <Link href={item.courseID + "/" + item.id}>
+              <Card key={item.id} className="mt-3">
+                <CardHeader>
+                  <CardTitle>📝 {item.name}</CardTitle>
+                  <CardDescription>📅 {item.term}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+        ))}
+      </div>
     };

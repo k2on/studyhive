@@ -24,28 +24,22 @@ export default async function Course({params }: Props) {
     where: eq(courses.id, params.course)
   })
 
-if (!course) {
-    return "course not found"
-}
+  if (!course) {
+      return "course not found"
+  }
 
-const session = await getServerAuthSession();
-
-
+  const session = await getServerAuthSession();
 
   return (
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
         <div className="flex space-x-2 justify-between">
-           <h1 className="text-3xl font-bold">{course.name}</h1>
+           <h1 className="text-3xl font-bold">📚 {course.name}</h1>
            {session && session.user && <JoinButton course={course.id} />}
         </div>
-        <div className="TeacherName">
-            {course.instructorName}
-        </div>
+        <div className="TeacherName">🧑‍🏫 {course.instructorName}</div>
         <div className="pt-8 flex flex-col space-y-4">
-        
-        
-        <Materials />
+          <Materials />
         </div>
       </div>
     </main>

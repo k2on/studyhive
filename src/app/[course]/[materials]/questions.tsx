@@ -5,7 +5,7 @@ import { api } from "~/trpc/react"
 import { Props } from "./page";
 import { RouterOutputs } from "~/trpc/shared";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { Answers } from "./answers";
@@ -29,24 +29,25 @@ interface QuestionProps {
     question: RouterOutputs["question"]["getQuestions"][number]
 }
 function Question({ idx, question }: QuestionProps) {
-    return <Card>
-        <CardHeader>
+    return (
+      <Card>
+        <CardHeader className="py-4">
             <CardTitle>Question {idx + 1}</CardTitle>
-        </CardHeader>
-        <hr className="border-gray" />
-        <CardContent>
-            <div className="my-2">
-              <div className="text-xs text-gray-500">
-                <img className="rounded-full h-5 inline-block" src={question.user.image ?? "/addclasses.webp"}/> {question.user.name}
+            <CardDescription className="text-xs flex justify-between">
+              <div className="text-gray-450">
+                <img className="rounded-full h-4 inline-block" src={question.user.image ?? "/addclasses.webp"}/> {question.user.name}
               </div>
-              {parse(question.content)}
               <TimeAgo date={question.createdAt} className="text-gray-400 block justify-right text-gray-400 text-xs"/>
-              <hr className="border-black" />
-              <br />
+            </CardDescription>
+        </CardHeader>
+        <CardContent>
+            <div className="mb-4 border-b-4 pb-4 font-medium">
+              {parse(question.content)}
             </div>
             <Answers questionID={question.id} />
         </CardContent>
     </Card>
+  );
 }
 
 export function AddQuestion() {

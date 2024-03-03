@@ -22,24 +22,25 @@ export default async function Material({ params }: Props) {
     });
     if (!material) return "Material not found";
 
-    return <div className="max-w-xl mx-auto">
-        
-        <div>    
-        <Link href = {"/" + params.course}>
-            <Button variant="secondary" className="">
-                <ChevronLeft className="justify-left mr-2 h-4 w-4" />
-            {course.name} - {course.instructorName}
-            </Button>
-            </Link>
-        </div>
-        <div className="flex space-x-2 justify-between">
-           <h1 className="text-3xl font-bold">{material.name}</h1>
-        </div>
-        <div>
-        {material.term}
-        </div>
-        <br/>
-        <Questions />
-        <AddQuestion />
-    </div>
+    return (
+      <div className="max-w-xl mx-auto">
+          <div>    
+          <Link href = {"/" + params.course}>
+              <Button variant="secondary" className="mb-3">
+                  <ChevronLeft className="justify-left mr-2 h-4 w-4" />
+              {course.name} - {course.instructorName}
+              </Button>
+              </Link>
+          </div>
+          <div className="flex space-x-2 justify-between">
+             <h1 className="text-3xl font-bold">📝 {material.name}</h1>
+          </div>
+          <div>
+          📅 {material.term}
+          </div>
+          <br/>
+          <Questions />
+          <AddQuestion />
+      </div>
+    );
 }

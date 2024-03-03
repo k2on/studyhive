@@ -176,7 +176,7 @@ export const questions = createTable(
       .notNull()
       .primaryKey(),
     materialID: varchar("materialID", { length: 255 }).notNull(),
-    content: varchar("content", { length: 511 }).notNull(),
+    content: text("content").notNull(),
     postedBy: varchar("postedBy", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -199,7 +199,7 @@ export const answers = createTable(
       .notNull()
       .primaryKey(),
     questionID: varchar("questionID", { length: 255 }).notNull(),
-    content: varchar("content", { length: 511 }).notNull(),
+    content: text("content").notNull(),
     postedBy: varchar("postedBy", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
