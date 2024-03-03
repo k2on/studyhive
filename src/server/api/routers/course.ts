@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { courses, usersToCourses } from "~/server/db/schema";
 import { and, eq } from "drizzle-orm";
@@ -60,5 +61,9 @@ export const courseRouter = createTRPCRouter({
       return await ctx.db.query.usersToCourses.findFirst({
         where: and(eq(usersToCourses.courseID, input.courseID), eq(usersToCourses.userID, ctx.session.user.id)),
       }) !== undefined;
-    })
+    }), 
+    getAll: publicProcedure
+    .query(({ ctx })=> {
+      return ctx.db.query.courses.findMany()
+    }),
 })
