@@ -166,3 +166,36 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+
+export const questions = createTable(
+  "question",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey(),
+    materialID: varchar("materialID", { length: 255 }).notNull(),
+    content: varchar("content", { length: 511 }).notNull(),
+    postedBy: varchar("postedBy", { length: 255 }).notNull(),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updatedAt").onUpdateNow(),
+  },
+);
+
+export const answers = createTable(
+  "answer",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey(),
+    questionID: varchar("questionID", { length: 255 }).notNull(),
+    content: varchar("content", { length: 511 }).notNull(),
+    postedBy: varchar("postedBy", { length: 255 }).notNull(),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updatedAt").onUpdateNow(),
+  },
+);
