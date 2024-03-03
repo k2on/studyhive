@@ -35,7 +35,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "StudyHive",
-  description: "The New & Improved Way to Study!",
+  description: "Enter the HIVEMIND!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

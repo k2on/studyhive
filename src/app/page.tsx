@@ -8,21 +8,8 @@ import { Input } from "~/components/ui/input";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { PlusIcon } from "lucide-react"
-
-async function Courses() {
-  const courses = await api.course.getJoined.query();
-
-  return (
-    courses.map((course) => (
-        <Card key={course.id}>
-            <CardHeader>
-              <CardTitle>{course.name}</CardTitle>
-              <CardDescription>{course.instructorName}</CardDescription>
-            </CardHeader>
-          </Card>
-      ))
-  );
-}
+import { Courses } from "./courses";
+import { Search } from "./search";
 
 export default async function Home() {
   noStore();
@@ -36,8 +23,10 @@ export default async function Home() {
   return (
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
-        <div className="flex space-x-2">
-           <Input placeholder="Search for a class"/>
+        <div className="flex justify-between space-x-2">
+          <Search />
+
+
            <Link href="/new">
            <Button className="flex justify-center align-center">
            <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
