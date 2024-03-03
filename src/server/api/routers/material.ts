@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { courseMaterials } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 export function sleep(ms: number) {                                         
     return new Promise(resolve => setTimeout(resolve, ms));                                         
@@ -17,7 +17,8 @@ export const materialsRouter = createTRPCRouter({
     .input(z.string())
     .query(({input, ctx })=> {
       return ctx.db.query.courseMaterials.findMany({
-        where: eq(courseMaterials.courseID, input)
+        where: eq(courseMaterials.courseID, input),
+        orderBy: (courseMaterials, { asc }) => [asc(courseMaterials.name)],
       })
     }),
   create: protectedProcedure
