@@ -1,13 +1,21 @@
-import { z } from "zod";
+import { Schema, z } from "zod";
 
 import {
   createTRPCRouter,
   protectedProcedure,
+  publicProcedure,
 } from "~/server/api/trpc";
 import { courseMaterials } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export const materialsRouter = createTRPCRouter({
+  getAll: publicProcedure
+    .input(z.string())
+    .query(({input, ctx })=> {
+      return ctx.db.query.courseMaterials.findMany({
+        where: eq(courseMaterials.courseID, input)
+      })
+    }),
   create: protectedProcedure
     .input(z.object({
       materialName: z.string().min(1),
@@ -21,6 +29,7 @@ export const materialsRouter = createTRPCRouter({
         name: input.materialName,
         term: input.term,
         courseID: input.courseId,
+        //term: ctx.session.user.id,
       });
     }),
 });

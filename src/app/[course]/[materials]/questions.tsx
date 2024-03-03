@@ -4,16 +4,20 @@ import { useParams } from "next/navigation";
 import { api } from "~/trpc/react"
 import { Props } from "./page";
 import { RouterOutputs } from "~/trpc/shared";
-import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { warn } from "console";
 import { Answers } from "./answers";
+import ReactQuill, { Quill } from "react-quill";
+import parse from "html-react-parser";
+
+import "react-quill/dist/quill.snow.css";
+import { options } from "prettier-plugin-tailwindcss";
 
 export function Questions() {
-    const { course, materials } = useParams<Props["params"]>();
+    const { materials } = useParams<Props["params"]>();
     const { data } = api.question.getQuestions.useQuery({ id: materials });
 
     return <div className="flex flex-col space-y-4 py-4">
@@ -31,11 +35,10 @@ function Question({ idx, question }: QuestionProps) {
             <CardTitle>Question {idx + 1}</CardTitle>
         </CardHeader>
         <CardContent>
-            {question.content}
+            {parse(question.content)}
             <Answers questionID={question.id} />
         </CardContent>
     </Card>
-
 }
 
 export function AddQuestion() {
@@ -45,7 +48,7 @@ export function AddQuestion() {
     const [content, setContent] = useState("");
 
     const { mutate } = api.question.create.useMutation({
-        onSuccess(data, variables, context) {
+        onSuccess() {
             util.question.getQuestions.invalidate();
             setContent("");
         },
@@ -59,14 +62,16 @@ export function AddQuestion() {
         })
     }
 
-    return <Card>
+    return (
+      <Card>
         <CardHeader>
             <CardTitle>New Question</CardTitle>
         </CardHeader>
         <CardContent>
-            <Input placeholder="Add a question/topic to study" value={content} onChange={(e) => setContent(e.target.value)} />
+            <ReactQuill theme="snow" placeholder="Write a question!" value={content} onChange={setContent}/>
             <br />
             <Button disabled={content.length == 0} onClick={onClick}>Post</Button>
         </CardContent>
-    </Card>
+      </Card>
+    );
 }
