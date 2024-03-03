@@ -39,6 +39,9 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    signIn: ({ account, profile }) => {
+      return account?.provider === "google" && (profile?.email?.endsWith("@g.clemson.edu") || false);
+    },
     session: ({ session, user }) => ({
       ...session,
       user: {
