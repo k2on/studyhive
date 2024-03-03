@@ -4,6 +4,30 @@ import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
+// Header.tsx
+import Link from 'next/link';
+
+function Header() {
+  return (
+    <header>
+      <Link href="/">
+        <div className="flex justify-center items-center">
+         <span className="font-bold text-3xl tracking-tight"> 
+          Study
+          </span>
+          <img src="/logo.png" alt="StudyHive Logo" style={{ height: '80px', display: 'inline-block' }} /> 
+          <span className="font-bold text-3xl tracking-tight"> 
+          Hive
+          </span> 
+        </div>
+      
+          
+      </Link>
+    </header>
+  );
+}
+
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -23,7 +47,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          
+
+          <Header />
+          {children}
+          
+          
+          
+          </TRPCReactProvider>
       </body>
     </html>
   );
