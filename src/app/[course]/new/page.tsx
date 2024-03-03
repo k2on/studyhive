@@ -45,7 +45,7 @@ export default function NewCourseMaterial({ params }: Props) {
   const router = useRouter()
   const { mutate } = api.materials.create.useMutation({
     onSuccess(data, variables, context) {
-      router.push("/" + variables.id)
+      router.push(variables.id)
     },
   })
 
