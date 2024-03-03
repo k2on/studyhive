@@ -24,7 +24,8 @@ import { useRouter } from "next/navigation"
 const formSchema = z.object({
   materialName: z.string().min(2, {
     message: "Material Name must be at least 2 characters.",
-  }), term: z.string().min(2, {
+  }),
+  term: z.string().min(2, {
     message: "Term must be at least 2 characters.",
   }),
 })
@@ -68,7 +69,6 @@ export default function NewCourseMaterial({ params }: Props) {
 
   return (
     <div className="max-w-xl mx-auto">
-    <Button onClick={() => pdf()}>PDF</Button>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField

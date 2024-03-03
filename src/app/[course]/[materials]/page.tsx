@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { courseMaterials, courses } from "~/server/db/schema";
 import { AddQuestion, Questions } from "./questions";
+import { Upload } from "./upload";
 
 export interface Props{
     params: {
@@ -27,6 +28,7 @@ export default async function Material({ params }: Props) {
         <div>
             {material.term} - {course.name} - {course.instructorName}
         </div>
+        <Upload />
         <Questions />
         <AddQuestion />
     </div>
