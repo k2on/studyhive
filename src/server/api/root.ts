@@ -4,6 +4,7 @@ import { courseRouter } from "./routers/course";
 import { materialsRouter } from "./routers/material";
 import { questionRouter } from "./routers/question";
 import { answerRouter } from "./routers/answers";
+import { upvoteRouter } from "./routers/upvote";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   materials: materialsRouter,
   question: questionRouter,
   answer: answerRouter,
+  upvote: upvoteRouter,
 });
 
 // export type definition of API

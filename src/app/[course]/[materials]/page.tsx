@@ -3,6 +3,9 @@ import { db } from "~/server/db";
 import { courseMaterials, courses } from "~/server/db/schema";
 import { AddQuestion, Questions } from "./questions";
 import { Upload } from "./upload";
+import Link from "next/link";
+import { Button } from "~/components/ui/button";
+import {  ChevronLeft } from "lucide-react"
 
 export interface Props{
     params: {
@@ -21,15 +24,24 @@ export default async function Material({ params }: Props) {
     });
     if (!material) return "Material not found";
 
-    return <div className="max-w-xl mx-auto">
-        <div className="flex space-x-2 justify-between">
-           <h1 className="text-3xl font-bold">{material.name}</h1>
-        </div>
-        <div>
-            {material.term} - {course.name} - {course.instructorName}
-        </div>
-        <Upload />
-        <Questions />
-        <AddQuestion />
-    </div>
+    return (
+      <div className="max-w-xl mx-auto">
+          <div>    
+          <Link href = {"/" + params.course}>
+              <Button variant="secondary" className="mb-3">
+                  <ChevronLeft className="justify-left mr-2 h-4 w-4" />
+                 {course.name} - {course.instructorName}
+              </Button>
+              </Link>
+          </div>
+          <div className="flex space-x-2 justify-between">
+             <h1 className="text-3xl font-bold">📝 {material.name}</h1>
+          </div>
+          <div> 📅 {material.term}</div>
+          <br/>
+          <Upload />
+          <Questions />
+          <AddQuestion />
+      </div>
+    );
 }

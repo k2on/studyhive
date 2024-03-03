@@ -51,6 +51,9 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   usersToCourses: many(usersToCourses),
+  answers: many(answers),
+  questions: many(questions),
+  upvotes: many(upvotes),
 }));
 
 export const accounts = createTable(
@@ -93,7 +96,6 @@ export const courseRelations = relations(courses, ({ many }) => ({
   usersToCourses: many(usersToCourses),
   courseMaterials: many(courseMaterials),
 }));
-
 
 export const usersToCourses = createTable("usersToCourses", {
     userID: varchar("userID", { length: 255 }).notNull(),
@@ -167,7 +169,6 @@ export const verificationTokens = createTable(
   })
 );
 
-
 export const questions = createTable(
   "question",
   {
@@ -175,7 +176,7 @@ export const questions = createTable(
       .notNull()
       .primaryKey(),
     materialID: varchar("materialID", { length: 255 }).notNull(),
-    content: varchar("content", { length: 511 }).notNull(),
+    content: text("content").notNull(),
     postedBy: varchar("postedBy", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -183,6 +184,13 @@ export const questions = createTable(
     updatedAt: timestamp("updatedAt").onUpdateNow(),
   },
 );
+
+export const questionRelations = relations(questions, ({ one }) => ({
+  user: one(users, {
+    fields: [questions.postedBy],
+    references: [users.id],
+  }),
+}));
 
 export const answers = createTable(
   "answer",
@@ -191,7 +199,7 @@ export const answers = createTable(
       .notNull()
       .primaryKey(),
     questionID: varchar("questionID", { length: 255 }).notNull(),
-    content: varchar("content", { length: 511 }).notNull(),
+    content: text("content").notNull(),
     postedBy: varchar("postedBy", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -199,3 +207,31 @@ export const answers = createTable(
     updatedAt: timestamp("updatedAt").onUpdateNow(),
   },
 );
+
+export const answerRelations = relations(answers, ({ one, many }) => ({
+  user: one(users, {
+    fields: [answers.postedBy],
+    references: [users.id],
+  }),
+  upvote: many(upvotes),
+}));
+
+export const upvotes = createTable(
+  "upvotes", 
+  {
+    id: varchar("id", { length: 255 }).notNull().primaryKey(),
+    answerID: varchar("answerID", { length: 255 }).notNull(),
+    userID: varchar("userID", { length: 255 }).notNull(),
+  }
+);
+
+export const upvoteRelations = relations(upvotes, ({ one }) => ({
+  user: one(users, {
+    fields: [upvotes.userID],
+    references: [users.id],
+  }),
+  answer: one(answers, {
+    fields: [upvotes.answerID],
+    references: [answers.id],
+  }),
+}));
