@@ -43,7 +43,7 @@ export const courseRouter = createTRPCRouter({
     .input(z.object({ courseID: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.delete(usersToCourses)
-        .where(eq(usersToCourses.userID, ctx.session.user.id) && eq(usersToCourses.courseID, input.courseID));
+        .where(and(eq(usersToCourses.userID, ctx.session.user.id), eq(usersToCourses.courseID, input.courseID)));
     }),
 
   joinCourse: protectedProcedure

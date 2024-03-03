@@ -14,13 +14,15 @@ export const answerRouter = createTRPCRouter({
             id: z.string().min(1),
         }))
         .query(async ({ ctx, input }) => {
-            return ctx.db.query.answers.findMany({
+            return await ctx.db.query.answers.findMany({
                 where: eq(answers.questionID, input.id),
                 with: {
                   user: true,
+                  upvote: true,
                 },
             })
         }),
+
     create: protectedProcedure
       .input(z.object({
           id: z.string().min(1),
