@@ -49,9 +49,6 @@ export default function NewCourseMaterial({ params }: Props) {
       router.push(variables.id)
     },
   })
-  const { mutate: pdf } = api.materials.uploadPDF.useMutation({
-
-  })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
