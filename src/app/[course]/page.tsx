@@ -53,12 +53,15 @@ if (!course){
         <div className="pt-8 flex flex-col space-y-4">
         <div className="flex space-x-2">
            <Input placeholder="Search for class materials"/>
+           
            <Button>
-           <Link href="/math/new">
+           <Link href={"/" + course.id + "/new"}>
            <PlusIcon className="mr-2 h-4 w-4" /> New
            </Link>
            </Button>
+        
         </div>
+        
         {items.map((item) => (
     
         <Card key={item.assignment_name}>

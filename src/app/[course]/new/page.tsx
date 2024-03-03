@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import Link from "next/link";
+
 import { Button } from "~/components/ui/button"
 import {
   Form,
@@ -40,6 +42,10 @@ export default function ProfileForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    mutate({
+      materialName: values.materialName,
+      term: values.term,
+    })
     console.log(values)
   }
   // ...
@@ -80,6 +86,7 @@ export default function ProfileForm() {
             </FormItem>
           )}
           />
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>

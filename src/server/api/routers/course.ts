@@ -8,7 +8,7 @@ import {
 import { courses, usersToCourses, users } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
-export const courseRouter = createTRPCRouter({
+export const courseRouter = createTRPCRouter({  
   create: protectedProcedure
     .input(z.object({ courseName: z.string().min(1), teacherName: z.string().min(1), id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {

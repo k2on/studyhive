@@ -10,7 +10,7 @@ import { api } from "~/trpc/server";
 import { PlusIcon } from "lucide-react"
 
 async function Courses() {
-  const courses = await api.courses.getJoined.query();
+  const courses = await api.course.getJoined.query();
 
   return (
     courses.map((course) => (
