@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { warn } from "console";
+import { Answers } from "./answers";
 
 export function Questions() {
     const { course, materials } = useParams<Props["params"]>();
@@ -31,6 +32,7 @@ function Question({ idx, question }: QuestionProps) {
         </CardHeader>
         <CardContent>
             {question.content}
+            <Answers questionID={question.id} />
         </CardContent>
     </Card>
 

@@ -3,6 +3,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { courseRouter } from "./routers/course";
 import { materialsRouter } from "./routers/material";
 import { questionRouter } from "./routers/question";
+import { answerRouter } from "./routers/answers";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   materials: materialsRouter,
   question: questionRouter,
+  answer: answerRouter,
 });
 
 // export type definition of API
