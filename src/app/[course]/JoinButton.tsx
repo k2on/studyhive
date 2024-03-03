@@ -15,12 +15,12 @@ export function JoinButton({ course }: JoinParams) {
   noStore();
 
   const util = api.useUtils();
-  const { data, isLoading } = api.courses.isInCourse.useQuery({ courseID: course });
-  const { mutate: join } = api.courses.joinCourse.useMutation({ onSuccess() {
-    util.courses.isInCourse.invalidate();
+  const { data, isLoading } = api.course.isInCourse.useQuery({ courseID: course });
+  const { mutate: join } = api.course.joinCourse.useMutation({ onSuccess() {
+    util.course.isInCourse.invalidate();
   }});
-  const { mutate: leave } = api.courses.leaveCourse.useMutation({ onSuccess() {
-    util.courses.isInCourse.invalidate();
+  const { mutate: leave } = api.course.leaveCourse.useMutation({ onSuccess() {
+    util.course.isInCourse.invalidate();
   }});
 
   if (isLoading) {
