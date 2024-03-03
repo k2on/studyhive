@@ -48,6 +48,9 @@ export default function NewCourseMaterial({ params }: Props) {
       router.push(variables.id)
     },
   })
+  const { mutate: pdf } = api.materials.uploadPDF.useMutation({
+
+  })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -65,6 +68,7 @@ export default function NewCourseMaterial({ params }: Props) {
 
   return (
     <div className="max-w-xl mx-auto">
+    <Button onClick={() => pdf()}>PDF</Button>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
