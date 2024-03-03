@@ -3,6 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { api } from "~/trpc/react"
+import { v4 } from "uuid"
+
+import Link from "next/link";
 
 import { Button } from "~/components/ui/button"
 import {
@@ -15,17 +19,20 @@ import {
   FormMessage,
 } from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   materialName: z.string().min(2, {
     message: "Material Name must be at least 2 characters.",
-  }),
-  term: z.string().min(2, {
+  }), term: z.string().min(2, {
     message: "Term must be at least 2 characters.",
   }),
 })
 
-export default function ProfileForm() {
+interface Props {
+  params: {course: string};
+}
+export default function NewCourseMaterial({ params }: Props) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,11 +42,23 @@ export default function ProfileForm() {
     },
   })
  
+  const router = useRouter()
+  const { mutate } = api.materials.create.useMutation({
+    onSuccess(data, variables, context) {
+      router.push("/" + variables.id)
+    },
+  })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    mutate({
+      materialName: values.materialName,
+      term: values.term,
+      id: v4(),
+      courseId: params.course,
+    })
     console.log(values)
   }
   // ...

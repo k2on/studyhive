@@ -7,7 +7,7 @@ import {
 import { courses, usersToCourses } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
-export const courseRouter = createTRPCRouter({
+export const courseRouter = createTRPCRouter({  
   create: protectedProcedure
     .input(z.object({ courseName: z.string().min(1), teacherName: z.string().min(1), id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
@@ -32,4 +32,28 @@ export const courseRouter = createTRPCRouter({
 
     return r.map(x => x.course);
   }),
-});
+
+  leaveCourse: protectedProcedure
+    .input(z.object({ courseID: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.delete(usersToCourses)
+        .where(eq(usersToCourses.userID, ctx.session.user.id) && eq(usersToCourses.courseID, input.courseID));
+    }),
+
+  joinCourse: protectedProcedure
+    .input(z.object({ courseID: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.insert(usersToCourses).values({
+        courseID: input.courseID,
+        userID: ctx.session.user.id,
+      })
+    }),
+
+  isInCourse: protectedProcedure
+    .input(z.object({ courseID: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.usersToCourses.findFirst({
+        where: eq(usersToCourses.courseID, input.courseID) && eq(usersToCourses.userID, ctx.session.user.id),
+      }) !== undefined;
+    })
+})

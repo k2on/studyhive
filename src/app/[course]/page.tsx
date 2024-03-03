@@ -1,20 +1,21 @@
 import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
 import { Button } from "~/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import { PlusIcon } from "lucide-react"
 import { db } from "~/server/db";
 import { eq } from "drizzle-orm";
 import { courses } from "~/server/db/schema";
 
-interface Props{
+import { JoinButton } from "./JoinButton";
+
+interface Props {
     params: {course: string};
 }
+
 export default async function Course({params }: Props) {
   noStore();
 
@@ -22,9 +23,11 @@ export default async function Course({params }: Props) {
     where: eq(courses.id, params.course)
   })
 
-if (!course){
+if (!course) {
     return "course not found"
 }
+
+const session = await getServerAuthSession();
 
   interface Item {
     assignment_name: string;
@@ -37,15 +40,12 @@ if (!course){
     // Add more items as needed
   ];
 
-
   return (
     <main className="">
       <div className="max-w-xl mx-auto pt-4">
         <div className="flex space-x-2 justify-between">
            <h1 className="text-3xl font-bold">{course.name}</h1>
-           <Button>
-           <PlusIcon className="mr-2 h-4 w-4 inline-block" /> Join Course
-           </Button>
+           {session && session.user && <JoinButton course={course.id} />}
         </div>
         <div className="TeacherName">
             {course.instructorName}
@@ -53,22 +53,24 @@ if (!course){
         <div className="pt-8 flex flex-col space-y-4">
         <div className="flex space-x-2">
            <Input placeholder="Search for class materials"/>
-           <Button>
-           <Link href="/math/new">
-           <PlusIcon className="mr-2 h-4 w-4" /> New
-           </Link>
-           </Button>
+           {session?.user && (
+              <Link href={"./new"}>
+                <Button className="flex justify-center align-center">
+                    <PlusIcon className="mr-2 h-4 w-4 inline-block" /> New
+                </Button>
+              </Link>
+            )}
         </div>
+        
         {items.map((item) => (
     
         <Card key={item.assignment_name}>
-            <CardHeader>
-              <CardTitle>{item.assignment_name}</CardTitle>
-              <CardDescription>{item.description_name}</CardDescription>
-            </CardHeader>
-          </Card>
+          <CardHeader>
+            <CardTitle>{item.assignment_name}</CardTitle>
+            <CardDescription>{item.description_name}</CardDescription>
+          </CardHeader>
+        </Card>
       ))}
-          
         </div>
       </div>
     </main>
