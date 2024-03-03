@@ -51,6 +51,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   usersToCourses: many(usersToCourses),
+  answers: many(answers),
+  questions: many(questions),
 }));
 
 export const accounts = createTable(
@@ -93,7 +95,6 @@ export const courseRelations = relations(courses, ({ many }) => ({
   usersToCourses: many(usersToCourses),
   courseMaterials: many(courseMaterials),
 }));
-
 
 export const usersToCourses = createTable("usersToCourses", {
     userID: varchar("userID", { length: 255 }).notNull(),
@@ -167,7 +168,6 @@ export const verificationTokens = createTable(
   })
 );
 
-
 export const questions = createTable(
   "question",
   {
@@ -184,6 +184,13 @@ export const questions = createTable(
   },
 );
 
+export const questionRelations = relations(questions, ({ one }) => ({
+  user: one(users, {
+    fields: [questions.postedBy],
+    references: [users.id],
+  }),
+}));
+
 export const answers = createTable(
   "answer",
   {
@@ -199,3 +206,10 @@ export const answers = createTable(
     updatedAt: timestamp("updatedAt").onUpdateNow(),
   },
 );
+
+export const answerRelations = relations(answers, ({ one }) => ({
+  user: one(users, {
+    fields: [answers.postedBy],
+    references: [users.id],
+  }),
+}));

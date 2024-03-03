@@ -15,7 +15,10 @@ export const answerRouter = createTRPCRouter({
         }))
         .query(async ({ ctx, input }) => {
             return ctx.db.query.answers.findMany({
-                where: eq(answers.questionID, input.id)
+                where: eq(answers.questionID, input.id),
+                with: {
+                  user: true,
+                },
             })
         }),
     create: protectedProcedure
