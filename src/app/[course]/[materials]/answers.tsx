@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { v4 } from "uuid";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 import { RouterOutputs } from "~/trpc/shared";
+import ReactQuill from "react-quill";
+import parse from "html-react-parser";
+import TimeAgo from "react-timeago";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 interface AnswersProps {
     questionID: string;
@@ -23,9 +26,15 @@ interface AnswerProps {
     answer: RouterOutputs["answer"]["getAnswers"][number];
 }
 export function Answer({ answer }: AnswerProps) {
-    return <div>
-        {answer.content}
-    </div>
+    return (
+      <div className="my-2 rounded-md border-solid border-2 border-green-400 p-3 text-xs">
+          <div className="text-gray-500">
+            <img className="rounded-full h-5 inline-block" src={answer.user.image ?? "/addclasses.webp"}/> {answer.user.name}
+          </div>
+          {parse(answer.content)}
+          <TimeAgo date={answer.createdAt} className="text-gray-400 block justify-right"/>
+      </div>
+    );
 }
 
 interface NewAnswerProps {
@@ -36,7 +45,7 @@ export function NewAnswer({ questionID }: NewAnswerProps) {
     const util = api.useUtils();
 
     const { mutate } = api.answer.create.useMutation({
-        onSuccess(data, variables, context) {
+        onSuccess() {
             util.answer.getAnswers.invalidate({ id: questionID });
             setContent("");
         },
@@ -50,8 +59,11 @@ export function NewAnswer({ questionID }: NewAnswerProps) {
         })
     }
 
-    return <div className="flex flex-row space-x-2">
-        <Input value={content} onChange={(e) => setContent(e.target.value)} placeholder="Submit an answer" />
-        <Button onClick={onPost}>Post</Button>
-    </div>
+    return (
+      <div className="">
+          <ReactQuill theme="snow" placeholder="Write an answer!" value={content} onChange={setContent}/>
+          <br />
+          <Button onClick={onPost}>Post</Button>
+      </div>
+    );
 }
