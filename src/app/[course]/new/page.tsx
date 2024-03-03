@@ -24,7 +24,8 @@ import { useRouter } from "next/navigation"
 const formSchema = z.object({
   materialName: z.string().min(2, {
     message: "Material Name must be at least 2 characters.",
-  }), term: z.string().min(2, {
+  }),
+  term: z.string().min(2, {
     message: "Term must be at least 2 characters.",
   }),
 })
@@ -47,6 +48,9 @@ export default function NewCourseMaterial({ params }: Props) {
     onSuccess(data, variables, context) {
       router.push(variables.id)
     },
+  })
+  const { mutate: pdf } = api.materials.uploadPDF.useMutation({
+
   })
 
   // 2. Define a submit handler.

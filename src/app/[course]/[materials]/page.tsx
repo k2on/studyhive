@@ -2,9 +2,11 @@ import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { courseMaterials, courses } from "~/server/db/schema";
 import { AddQuestion, Questions } from "./questions";
+import { Upload } from "./upload";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import {  ChevronLeft } from "lucide-react"
+
 export interface Props{
     params: {
         course: string,
@@ -37,6 +39,7 @@ export default async function Material({ params }: Props) {
           </div>
           <div> 📅 {material.term}</div>
           <br/>
+          <Upload />
           <Questions />
           <AddQuestion />
       </div>

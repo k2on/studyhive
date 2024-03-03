@@ -1,4 +1,4 @@
-import { Schema, z } from "zod";
+import { z } from "zod";
 
 import {
   createTRPCRouter,
@@ -7,6 +7,10 @@ import {
 } from "~/server/api/trpc";
 import { courseMaterials } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+
+export function sleep(ms: number) {                                         
+    return new Promise(resolve => setTimeout(resolve, ms));                                         
+}  
 
 export const materialsRouter = createTRPCRouter({
   getAll: publicProcedure
