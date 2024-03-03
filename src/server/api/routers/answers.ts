@@ -22,10 +22,12 @@ export const answerRouter = createTRPCRouter({
                 },
             });
 
-            return res.map(ans => ({
-              fromLoggedIn: ans.upvote.some(upvote => ctx.session?.user.id === upvote.userID),
-              ...ans,
-            }));
+            return res
+              .map(ans => ({
+                fromLoggedIn: ans.upvote.some(upvote => ctx.session?.user.id === upvote.userID),
+                ...ans,
+              }))
+              .sort((a, b) => b.upvote.length - a.upvote.length);
         }),
 
     create: protectedProcedure

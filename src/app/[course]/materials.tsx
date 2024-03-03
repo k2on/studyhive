@@ -14,8 +14,8 @@ import { useState } from "react";
 
 
 export function Materials(){
-    const {course} = useParams<Props["params"]>()
-    const {data} = api.materials.getAll.useQuery(course);
+    const { course } = useParams<Props["params"]>()
+    const { data } = api.materials.getAll.useQuery(course);
     const [search, setSearch] = useState("");
 
     return <div>
@@ -28,7 +28,9 @@ export function Materials(){
                 </Button>
               </Link>
         </div>
-        {data?.filter(item => item.name?.toLowerCase().includes(search.toLowerCase())).map((item) => (
+        {data?.length === 0 ?
+          <div className="mt-3">There are no materials for this class. Click New to add some!</div> :
+          data?.filter(item => item.name?.toLowerCase().includes(search.toLowerCase())).map((item) => (
             <Link href={item.courseID + "/" + item.id}>
               <Card key={item.id} className="mt-3">
                 <CardHeader>

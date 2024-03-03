@@ -23,7 +23,7 @@ export function JoinButton({ course }: JoinParams) {
     util.course.isInCourse.invalidate();
   }});
 
-  if (isLoading) {
+  if (isLoading || isLeaving || isJoining) {
     return (
     <Button disabled>
       <PencilRulerIcon className="mr-2 h-4 w-4 animate-spin" />
@@ -32,16 +32,9 @@ export function JoinButton({ course }: JoinParams) {
     )
   }
 
-  switch (true) {
-    case isInCourse:
-      <Button onClick={() => { leave({ courseID: course }) }}>
-        <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
-      </Button>
-  }
-
   return isInCourse
   ? (
-    <Button onClick={() => { leave({ courseID: course }) }}>
+    <Button onClick={() => { leave({ courseID: course }) }} variant="outline">
       <CheckIcon className="mr-2 h-4 w-4 inline-block" /> Joined Course
     </Button>
     )

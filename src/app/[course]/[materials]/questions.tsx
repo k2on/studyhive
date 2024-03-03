@@ -17,7 +17,7 @@ import TimeAgo from "react-timeago";
 
 export function Questions() {
     const { materials } = useParams<Props["params"]>();
-    const { data } = api.question.getQuestions.useQuery({ id: materials });
+    const { data } = api.question.getQuestions.useQuery({ id: materials }, { refetchInterval: 5000 });
 
     return <div className="flex flex-col space-y-4 py-4">
         {data?.map((question, idx) => <Question key={question.id} idx={idx} question={question} />)}

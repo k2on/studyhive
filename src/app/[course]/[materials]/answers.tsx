@@ -14,7 +14,7 @@ interface AnswersProps {
     questionID: string;
 }
 export function Answers({ questionID }: AnswersProps) {
-    const { data } = api.answer.getAnswers.useQuery({ id: questionID });
+    const { data } = api.answer.getAnswers.useQuery({ id: questionID }, { refetchInterval: 3000 });
 
     return <div>
         {data?.map(answer => <Answer key={answer.id} answer={answer} />)}
