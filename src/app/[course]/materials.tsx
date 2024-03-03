@@ -13,11 +13,11 @@ export function Materials(){
     const {data} = api.materials.getAll.useQuery(course);
 
     return data?.map((item) => (
-    <Link href={item.id}>
+    <Link href={item.courseID + "/" + item.id}>
     <Card key={item.id}>
       <CardHeader>
         <CardTitle>{item.name}</CardTitle>
-        <CardDescription>{item.courseID}</CardDescription>
+        <CardDescription>{item.term}</CardDescription>
       </CardHeader>
     </Card>
     </Link>

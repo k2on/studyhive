@@ -9,6 +9,7 @@ import { PlusIcon } from "lucide-react"
 import { db } from "~/server/db";
 import { eq } from "drizzle-orm";
 import { courses } from "~/server/db/schema";
+import { Materials } from "./materials";
 
 import { JoinButton } from "./JoinButton";
 
@@ -29,15 +30,7 @@ if (!course) {
 
 const session = await getServerAuthSession();
 
-  interface Item {
-    assignment_name: string;
-    description_name: string;
-  }
 
-  const items: Item[] = [
-    { assignment_name: 'Ex. Exam 1', description_name: 'Fall 2023: Printing "Hello World", Arrays, ...' },
-    // Add more items as needed
-  ];
 
   return (
     <main className="">
@@ -61,15 +54,7 @@ const session = await getServerAuthSession();
             )}
         </div>
         
-        {items.map((item) => (
-    
-        <Card key={item.assignment_name}>
-          <CardHeader>
-            <CardTitle>{item.assignment_name}</CardTitle>
-            <CardDescription>{item.description_name}</CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
+        <Materials />
         </div>
       </div>
     </main>
