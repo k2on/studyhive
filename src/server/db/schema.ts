@@ -53,6 +53,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   usersToCourses: many(usersToCourses),
   answers: many(answers),
   questions: many(questions),
+  upvotes: many(upvotes),
 }));
 
 export const accounts = createTable(
@@ -207,9 +208,30 @@ export const answers = createTable(
   },
 );
 
-export const answerRelations = relations(answers, ({ one }) => ({
+export const answerRelations = relations(answers, ({ one, many }) => ({
   user: one(users, {
     fields: [answers.postedBy],
     references: [users.id],
+  }),
+  upvote: many(upvotes),
+}));
+
+export const upvotes = createTable(
+  "upvotes", 
+  {
+    id: varchar("id", { length: 255 }).notNull().primaryKey(),
+    answerID: varchar("answerID", { length: 255 }).notNull(),
+    userID: varchar("userID", { length: 255 }).notNull(),
+  }
+);
+
+export const upvoteRelations = relations(upvotes, ({ one }) => ({
+  user: one(users, {
+    fields: [upvotes.userID],
+    references: [users.id],
+  }),
+  answer: one(answers, {
+    fields: [upvotes.answerID],
+    references: [answers.id],
   }),
 }));
