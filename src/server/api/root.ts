@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { courseRouter } from "./routers/course";
 import { materialsRouter } from "./routers/material";
@@ -13,7 +12,6 @@ import { upvoteRouter } from "./routers/upvote";
  */
 export const appRouter = createTRPCRouter({
   course: courseRouter,
-  post: postRouter,
   materials: materialsRouter,
   question: questionRouter,
   answer: answerRouter,
