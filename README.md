@@ -1,6 +1,6 @@
 # StudyHive
 
-Open source your study guides.
+Croud source your study guides.
 
 1. Upload a study guide PDF
 2. StudyHive will split the file up into questions.
